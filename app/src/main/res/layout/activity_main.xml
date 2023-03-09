@@ -47,13 +47,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="4" />
-
+                <Button
+                    android:id="@+id/leftStop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Stop" />
                 <Button
                     android:id="@+id/leftRefresh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Refresh" />
+
+
             </LinearLayout>
 
             <com.alexvas.rtsp.widget.RtspSurfaceView
@@ -77,11 +84,17 @@
                     android:id="@+id/righRefresh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:layout_marginLeft="180dp"
                     android:layout_weight="1"
                     android:paddingLeft="16dp"
                     android:text="Refresh" />
+
+                <Button
+                    android:id="@+id/rightStop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="16dp"
+                    android:text="Stop" />
 
                 <Button
                     android:id="@+id/right4"
