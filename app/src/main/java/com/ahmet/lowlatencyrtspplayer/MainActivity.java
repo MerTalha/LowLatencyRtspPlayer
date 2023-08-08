@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity  {
         zoomLayout = findViewById(R.id.zoomLayout); // ZoomLinearLayout'ı XML'den alın
         zoomLayout.setCanZoom(true); // Başlangıçta zoom yeteneğini açın
 
-        RtspSurfaceView surfaceView = new RtspSurfaceView(this);
-        zoomLayout.addView(surfaceView);
 
 
         leftButton1.setOnClickListener(v -> {
