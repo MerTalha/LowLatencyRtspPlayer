@@ -1,9 +1,12 @@
 package com.ahmet.lowlatencyrtspplayer;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private PointF startTouchPoint = new PointF();
     private float minX, maxX, minY, maxY;
     private boolean isDragging = false;
-    private boolean isZoomed = false;
+    private boolean isZooming = false; // Yakınlaştırma işlemi yapılıyor mu?
     @SuppressLint({"MissingInflatedId", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Ekran boyutunu al
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
+        int screenHeight = displayMetrics.heightPixels;
+
+        // Sınırları hesapla
+        float contentWidth = surfaceViewLeft.getWidth() * scaleFactor;
+        float contentHeight = surfaceViewLeft.getHeight() * scaleFactor;
+
+        minX = Math.min(0, screenWidth - contentWidth);
+        maxX = 0; // Ekrana sığdırıldığında sağa sınırı kaldır
+        minY = Math.min(0, screenHeight - contentHeight);
+        maxY = 0; // Ekrana sığdırıldığında alta sınırı kaldır
+
         surfaceViewLeft.setOnTouchListener((v, event) -> {
             int action = event.getActionMasked();
             PointF currentTouchPoint = new PointF(event.getX(), event.getY());
@@ -71,10 +88,10 @@ public class MainActivity extends AppCompatActivity {
                     lastTouchPoint.set(currentTouchPoint);
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if (event.getPointerCount() == 1 && !isDragging && isZoomed) {
+                    if (event.getPointerCount() == 1 && !isDragging && isZooming) {
                         isDragging = true;
                     }
-                    if (event.getPointerCount() == 1 && isDragging && isZoomed) {
+                    if (event.getPointerCount() == 1 && isDragging && isZooming) {
                         float dx = currentTouchPoint.x - lastTouchPoint.x;
                         float dy = currentTouchPoint.y - lastTouchPoint.y;
                         float newX = surfaceViewLeft.getTranslationX() + dx;
@@ -90,15 +107,15 @@ public class MainActivity extends AppCompatActivity {
                     lastTouchPoint.set(currentTouchPoint);
                     break;
                 case MotionEvent.ACTION_POINTER_DOWN:
-                    isZoomed = true; // Zoom başladığında işaretle
-                    isDragging = false; // Zoom esnasında kaydırmayı engelle
+                    isZooming = true;
                     break;
                 case MotionEvent.ACTION_POINTER_UP:
-                    isDragging = false;
+                    isZooming = false;
                     break;
                 case MotionEvent.ACTION_UP:
-                    if (!isDragging && isZoomed) {
-                        // Zoom işlemi sonlandı
+                    if (!isDragging && isZooming) {
+                        float targetScale = scaleFactor > 1.0f ? MIN_SCALE_FACTOR : MAX_SCALE_FACTOR;
+                        scaleSurfaceView(targetScale);
                     }
                     isDragging = false;
                     break;
@@ -176,10 +193,13 @@ public class MainActivity extends AppCompatActivity {
     private float clamp(float value, float min, float max) {
         return Math.min(Math.max(value, min), max);
     }
-
-    private float getFingerSpacing(MotionEvent event) {
-        float x = event.getX(0) - event.getX(1);
-        float y = event.getY(0) - event.getY(1);
-        return (float) Math.sqrt(x * x + y * y);
+    private void scaleSurfaceView(float targetScale) {
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(surfaceViewLeft, "scaleX", targetScale);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(surfaceViewLeft, "scaleY", targetScale);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(scaleX, scaleY);
+        set.setDuration(300);
+        set.start();
+        scaleFactor = targetScale;
     }
 }
