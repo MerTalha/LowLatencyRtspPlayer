@@ -6,83 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <com.ahmet.lowlatencyrtspplayer.ZoomLinearLayout
+        android:id="@+id/zoomLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnZoomIn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Zoom In" />
-
-                <Button
-                    android:id="@+id/btnZoomOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Zoom Out" />
-
-                <Button
-                    android:id="@+id/left1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="1" />
-
-                <Button
-                    android:id="@+id/left2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="2" />
-
-                <Button
-                    android:id="@+id/left3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="3" />
-
-                <Button
-                    android:id="@+id/left4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="4" />
-                <Button
-                    android:id="@+id/leftStop"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Stop" />
-                <Button
-                    android:id="@+id/leftRefresh"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Refresh" />
-
-
-            </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <com.alexvas.rtsp.widget.RtspSurfaceView
                 android:id="@+id/surfaceViewLeft"
-                android:layout_width="1188dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/buttonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    </LinearLayout>
+                <Button
+                    android:id="@+id/left1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+    </com.ahmet.lowlatencyrtspplayer.ZoomLinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
