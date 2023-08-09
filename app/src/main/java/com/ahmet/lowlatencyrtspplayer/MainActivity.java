@@ -23,13 +23,11 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         surfaceViewLeft = findViewById(R.id.surfaceViewLeft);
-        leftButton1 = findViewById(R.id.left1);
+        //leftButton1 = findViewById(R.id.left1);
 
 
-        Uri uri1 = Uri.parse("rtsp://192.168.1.10:554/user=admin&password=&channel=1&stream=0.sdp?");
+        Uri uri1 = Uri.parse("rtsp://192.168.3.10:554/user=admin&password=&channel=1&stream=0.sdp?");
         Uri uri2 = Uri.parse("rtsp://192.168.1.10:554/user=admin&password=&channel=2&stream=0.sdp?");
-        Uri uri3 = Uri.parse("rtsp://192.168.1.10:554/user=admin&password=&channel=3&stream=0.sdp?");
-        Uri uri4 = Uri.parse("rtsp://192.168.1.10:554/user=admin&password=&channel=4&stream=0.sdp?");
 
         surfaceViewLeft.init(uri2,"","");
 
@@ -38,9 +36,13 @@ public class MainActivity extends AppCompatActivity  {
         zoomLayout = findViewById(R.id.zoomLayout); // ZoomLinearLayout'ı XML'den alın
         zoomLayout.setCanZoom(true); // Başlangıçta zoom yeteneğini açın
 
+        for (int i = 0; i < 5; i++){
+            surfaceViewLeft.init(uri1,"","");
+            surfaceViewLeft.start(true,true);
+        }
 
 
-        leftButton1.setOnClickListener(v -> {
+        /*leftButton1.setOnClickListener(v -> {
             if (surfaceViewLeft.isStarted()){
                 surfaceViewLeft.stop();
                 Toast.makeText(MainActivity.this, "Left Camera 1 Stop and Start", Toast.LENGTH_SHORT).show();
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity  {
                 surfaceViewLeft.start(true,true);
             }
 
-        });
+        });*/
 
     }
 
